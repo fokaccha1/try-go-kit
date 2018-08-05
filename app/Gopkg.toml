@@ -33,6 +33,10 @@
   name = "github.com/prometheus/client_golang"
   version = "0.8.0"
 
+[[constraint]]
+  name = "github.com/go-sql-driver/mysql"
+  version = "1.4.0"
+
 [prune]
   go-tests = true
   unused-packages = true
