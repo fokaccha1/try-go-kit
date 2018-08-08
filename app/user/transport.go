@@ -3,8 +3,9 @@ package user
 import (
 	"context"
 	"encoding/json"
-	httptransport "github.com/go-kit/kit/transport/http"
 	"net/http"
+
+	httptransport "github.com/go-kit/kit/transport/http"
 )
 
 func MakeGetUserHttpHandler(svc UserService) http.Handler {
@@ -32,7 +33,7 @@ func decodeGetUserRequest(_ context.Context, r *http.Request) (interface{}, erro
 }
 
 func decodeCreateUserRequest(_ context.Context, r *http.Request) (interface{}, error) {
-	var request User
+	var request UserDraft
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		return nil, err
 	}

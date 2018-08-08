@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+
 	"github.com/go-kit/kit/endpoint"
 )
 
@@ -18,7 +19,7 @@ func MakeGetUserEndpoint(svc UserService) endpoint.Endpoint {
 
 func MakeCreateUserEndpoint(svc UserService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		req := request.(User)
+		req := request.(UserDraft)
 		id, err := svc.CreateUser(ctx, req)
 		if err != nil {
 			return nil, err

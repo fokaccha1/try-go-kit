@@ -2,38 +2,31 @@ package user
 
 import (
 	"context"
-	"errors"
 )
 
 type UserService interface {
 	GetUser(ctx context.Context, id int) (User, error)
-	CreateUser(_ context.Context, user User) (id int, err error)
+	CreateUser(_ context.Context, ud UserDraft) (id int, err error)
 }
 
-type userService struct{}
+type userService struct {
+	uRepo UserRepository
+}
 
 func NewService() UserService {
-	return &userService{}
+	uRepo := NewUserRepository()
+	return &userService{uRepo}
 }
 
-var (
-	users = map[int]User{
-		1: User{Id: 1, Name: "Jack", Age: 13},
-		2: User{Id: 2, Name: "George", Age: 25},
-		3: User{Id: 3, Name: "Philip", Age: 38},
-	}
-	ErrNotFound = errors.New("Not Found")
-)
-
-func (*userService) GetUser(_ context.Context, id int) (User, error) {
-	user, ok := users[id]
-	if ok {
+func (s *userService) GetUser(ctx context.Context, id int) (User, error) {
+	user, err := s.uRepo.Find(ctx, id)
+	if err == nil {
 		return user, nil
 	}
-	return User{}, ErrNotFound
+	return User{}, err
 }
 
-func (*userService) CreateUser(_ context.Context, user User) (id int, err error) {
-	id = 4
-	return id, nil
+func (s *userService) CreateUser(ctx context.Context, ud UserDraft) (id int, err error) {
+	id, err = s.uRepo.Store(ctx, ud)
+	return
 }

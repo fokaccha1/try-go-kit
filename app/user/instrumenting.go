@@ -3,10 +3,11 @@ package user
 import (
 	"context"
 	"fmt"
+	"time"
+
 	"github.com/go-kit/kit/metrics"
 	kitprometheus "github.com/go-kit/kit/metrics/prometheus"
 	stdprometheus "github.com/prometheus/client_golang/prometheus"
-	"time"
 )
 
 type instrumentingMiddleware struct {
@@ -44,7 +45,7 @@ func (mw instrumentingMiddleware) GetUser(ctx context.Context, id int) (output U
 	return
 }
 
-func (mw instrumentingMiddleware) CreateUser(ctx context.Context, user User) (id int, err error) {
+func (mw instrumentingMiddleware) CreateUser(ctx context.Context, ud UserDraft) (id int, err error) {
 	defer func(begin time.Time) {
 		methodField := []string{"method", "createuser"}
 		errorField := []string{"error", fmt.Sprintf("%v", err)}
@@ -52,6 +53,6 @@ func (mw instrumentingMiddleware) CreateUser(ctx context.Context, user User) (id
 		mw.requestLatency.With(methodField...).With(errorField...).Observe(time.Since(begin).Seconds())
 		mw.createdId.Observe(float64(id))
 	}(time.Now())
-	id, err = mw.next.CreateUser(ctx, user)
+	id, err = mw.next.CreateUser(ctx, ud)
 	return
 }

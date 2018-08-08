@@ -3,9 +3,10 @@ package user
 import (
 	"context"
 	"fmt"
-	"github.com/go-kit/kit/log"
 	"os"
 	"time"
+
+	"github.com/go-kit/kit/log"
 )
 
 type loggingMiddleware struct {
@@ -32,16 +33,16 @@ func (mw loggingMiddleware) GetUser(ctx context.Context, id int) (output User, e
 	return
 }
 
-func (mw loggingMiddleware) CreateUser(ctx context.Context, user User) (id int, err error) {
+func (mw loggingMiddleware) CreateUser(ctx context.Context, ud UserDraft) (id int, err error) {
 	defer func(begin time.Time) {
 		mw.logger.Log(
-			"method", "count",
-			"input", fmt.Sprintf("%v", user),
+			"method", "createuser",
+			"input", fmt.Sprintf("%v", ud),
 			"id", id,
 			"err", err,
 			"took", time.Since(begin),
 		)
 	}(time.Now())
-	id, err = mw.next.CreateUser(ctx, user)
+	id, err = mw.next.CreateUser(ctx, ud)
 	return
 }
