@@ -7,3 +7,19 @@ services:
       - 5000:5000
     volumes:
       - ./app:/go/src/app
+    links:
+      - db
+  db:
+    build: ./db
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass
+      - MYSQL_DATABASE=go-kit
+      - MYSQL_USER=go-kit
+      - MYSQL_PASSWORD=pass
+      - TZ=Asia/Tokyo
+    volumes:
+      - ./db/initdb.d:/docker-entrypoint-initdb.d
+      - ./db/mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
