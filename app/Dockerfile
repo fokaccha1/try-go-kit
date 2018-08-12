@@ -5,5 +5,3 @@ RUN apt-get update && \
     apt-get upgrade -y
 
 RUN mkdir /go/src/app
-
-EXPOSE 5000
