@@ -2,6 +2,7 @@ version: '3'
 services:
   app:
     build: ./app
+    container_name: app
     command: go run /go/src/app/main.go
     ports:
       - 5000:5000
@@ -23,3 +24,23 @@ services:
       - ./db/mysql:/var/lib/mysql
     ports:
       - 3306:3306
+  prometheus:
+    build: ./metrics/prometheus
+    restart: always
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    links:
+      - app
+  grafana:
+    build: ./metrics/grafana
+    ports:
+      - 3000:3000
+    user: "104"
+    env_file:
+      - ./metrics/grafana/.env
+    links:
+      - prometheus
+    volumes:
+      - ./metrics/grafana/mount:/var/lib/grafana
+      - ./metrics/grafana/dashboards:/var/lib/grafana/dashboards

@@ -1,2 +1,3 @@
 db/mysql
+metrics/grafana/mount
 !*.gitkeep
