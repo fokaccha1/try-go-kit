@@ -13,7 +13,8 @@ func MakeGetUserEndpoint(svc UserService) endpoint.Endpoint {
 		if err != nil {
 			return nil, err
 		}
-		return user, nil
+		res := GetUserResponse{Id: user.Id, Name: user.Name, Age: user.Age}
+		return res, nil
 	}
 }
 
