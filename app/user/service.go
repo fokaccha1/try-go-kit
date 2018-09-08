@@ -6,7 +6,7 @@ import (
 
 type UserService interface {
 	GetUser(ctx context.Context, id int) (User, error)
-	CreateUser(_ context.Context, ud UserDraft) (id int, err error)
+	CreateUser(_ context.Context, name string, age int) (id int, err error)
 }
 
 type userService struct {
@@ -26,7 +26,7 @@ func (s *userService) GetUser(ctx context.Context, id int) (User, error) {
 	return User{}, err
 }
 
-func (s *userService) CreateUser(ctx context.Context, ud UserDraft) (id int, err error) {
-	id, err = s.uRepo.Store(ctx, ud)
+func (s *userService) CreateUser(ctx context.Context, name string, age int) (id int, err error) {
+	id, err = s.uRepo.Store(ctx, name, age)
 	return
 }

@@ -33,7 +33,7 @@ func decodeGetUserRequest(_ context.Context, r *http.Request) (interface{}, erro
 }
 
 func decodeCreateUserRequest(_ context.Context, r *http.Request) (interface{}, error) {
-	var request UserDraft
+	var request CreateUserRequest
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		return nil, err
 	}

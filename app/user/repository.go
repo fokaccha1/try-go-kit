@@ -10,7 +10,7 @@ import (
 type UserRepository interface {
 	Find(ctx context.Context, id int) (user User, err error)
 	FindAll(context.Context) ([]User, error)
-	Store(context.Context, UserDraft) (id int, err error)
+	Store(ctx context.Context, name string, age int) (id int, err error)
 }
 
 type userRepository struct {
@@ -48,8 +48,8 @@ func (repo *userRepository) FindAll(context.Context) (users []User, err error) {
 	return
 }
 
-func (repo *userRepository) Store(ctx context.Context, ud UserDraft) (id int, err error) {
-	res, err := repo.conn.Exec("INSERT INTO users (name, age) VALUES (?,?)", ud.Name, ud.Age)
+func (repo *userRepository) Store(ctx context.Context, name string, age int) (id int, err error) {
+	res, err := repo.conn.Exec("INSERT INTO users (name, age) VALUES (?,?)", name, age)
 	if err != nil {
 		id = 0
 		return

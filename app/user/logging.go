@@ -33,16 +33,16 @@ func (mw loggingMiddleware) GetUser(ctx context.Context, id int) (output User, e
 	return
 }
 
-func (mw loggingMiddleware) CreateUser(ctx context.Context, ud UserDraft) (id int, err error) {
+func (mw loggingMiddleware) CreateUser(ctx context.Context, name string, age int) (id int, err error) {
 	defer func(begin time.Time) {
 		mw.logger.Log(
 			"method", "createuser",
-			"input", fmt.Sprintf("%v", ud),
+			"input", fmt.Sprintf("{name:%v, age: %v}", name, age),
 			"id", id,
 			"err", err,
 			"took", time.Since(begin),
 		)
 	}(time.Now())
-	id, err = mw.next.CreateUser(ctx, ud)
+	id, err = mw.next.CreateUser(ctx, name, age)
 	return
 }

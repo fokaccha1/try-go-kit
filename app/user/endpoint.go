@@ -20,8 +20,8 @@ func MakeGetUserEndpoint(svc UserService) endpoint.Endpoint {
 
 func MakeCreateUserEndpoint(svc UserService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		req := request.(UserDraft)
-		id, err := svc.CreateUser(ctx, req)
+		req := request.(CreateUserRequest)
+		id, err := svc.CreateUser(ctx, req.Name, req.Age)
 		if err != nil {
 			return nil, err
 		}

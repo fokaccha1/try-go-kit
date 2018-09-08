@@ -45,7 +45,7 @@ func (mw instrumentingMiddleware) GetUser(ctx context.Context, id int) (output U
 	return
 }
 
-func (mw instrumentingMiddleware) CreateUser(ctx context.Context, ud UserDraft) (id int, err error) {
+func (mw instrumentingMiddleware) CreateUser(ctx context.Context, name string, age int) (id int, err error) {
 	defer func(begin time.Time) {
 		methodField := []string{"method", "createuser"}
 		errorField := []string{"error", fmt.Sprintf("%v", err)}
@@ -53,6 +53,6 @@ func (mw instrumentingMiddleware) CreateUser(ctx context.Context, ud UserDraft) 
 		mw.requestLatency.With(methodField...).With(errorField...).Observe(time.Since(begin).Seconds())
 		mw.createdId.Observe(float64(id))
 	}(time.Now())
-	id, err = mw.next.CreateUser(ctx, ud)
+	id, err = mw.next.CreateUser(ctx, name, age)
 	return
 }
