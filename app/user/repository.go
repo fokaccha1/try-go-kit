@@ -18,7 +18,7 @@ type userRepository struct {
 }
 
 func NewUserRepository() UserRepository {
-	connection, err := sql.Open("mysql", "go-kit:pass@tcp(db:3306)/go-kit")
+	connection, err := sql.Open("mysql", "go-kit:pass@tcp(mysql:3306)/go-kit")
 	if err != nil {
 		panic(err.Error)
 	}

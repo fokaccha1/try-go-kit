@@ -9,19 +9,16 @@ services:
     volumes:
       - ./app:/go/src/app
     links:
-      - db
-  db:
-    build: ./db
+      - mysql
+  mysql:
+    build: ./db/mysql
+    container_name: mysql
     restart: always
-    environment:
-      - MYSQL_ROOT_PASSWORD=pass
-      - MYSQL_DATABASE=go-kit
-      - MYSQL_USER=go-kit
-      - MYSQL_PASSWORD=pass
-      - TZ=Asia/Tokyo
+    env_file:
+      - ./db/mysql/.env
     volumes:
-      - ./db/initdb.d:/docker-entrypoint-initdb.d
-      - ./db/mysql:/var/lib/mysql
+      - ./db/mysql/initdb.d:/docker-entrypoint-initdb.d
+      - ./db/mysql/mount:/var/lib/mysql
     ports:
       - 3306:3306
   prometheus:
