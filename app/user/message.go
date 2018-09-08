@@ -15,11 +15,11 @@ type GetUserResponse struct {
 	Age  int    `json:"age"`
 }
 
-type UserDraft struct {
+type CreateUserRequest struct {
 	Name string `json:"name"`
 	Age  int    `json:"age"`
 }
 
-type GetUserRequest struct {
+type CreateUserResponse struct {
 	Id int `json:"id"`
 }

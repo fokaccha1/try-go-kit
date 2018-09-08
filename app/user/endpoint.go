@@ -25,6 +25,7 @@ func MakeCreateUserEndpoint(svc UserService) endpoint.Endpoint {
 		if err != nil {
 			return nil, err
 		}
-		return id, nil
+		res := CreateUserResponse{Id: id}
+		return res, nil
 	}
 }
