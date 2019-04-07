@@ -1,7 +1,3 @@
-FROM golang:latest
+FROM golang:1.12.2
 
-ENV GOPATH $GOPATH:/go/src
-RUN apt-get update && \
-    apt-get upgrade -y
-
-RUN mkdir /go/src/app
+WORKDIR /go/src/app
